@@ -2,11 +2,13 @@ package guru.springframework.spring5recipeapp.converters;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
 import guru.springframework.spring5recipeapp.commands.CategoryCommand;
 import guru.springframework.spring5recipeapp.model.Category;
 import lombok.Synchronized;
 
+@Component
 public class CategoryToCategoryCommand implements Converter<Category, CategoryCommand> {
 
     @Synchronized
