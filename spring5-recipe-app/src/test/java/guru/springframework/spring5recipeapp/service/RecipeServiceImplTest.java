@@ -1,11 +1,15 @@
 package guru.springframework.spring5recipeapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +34,21 @@ public class RecipeServiceImplTest {
     }
 
     @Test
+    void testGetRecipeByID() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepo.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
+
+        assertNotNull(recipeReturned, "Null recipe returned");
+        verify(recipeRepo, times(1)).findById(anyLong());
+        verify(recipeRepo, never()).findAll();
+    }
+
+    @Test
     void testGetRecipes() throws Exception {
 
         Recipe recipe = new Recipe();
@@ -41,5 +60,6 @@ public class RecipeServiceImplTest {
 
         assertEquals(recipes.size(), 1);
         verify(recipeRepo, times(1)).findAll();
+        verify(recipeRepo, never()).findById(anyLong());
     }
 }
