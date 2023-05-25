@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <title>Recipe Form</title>
+</head>
+
+<body>
+    <div class="container-fluid" style="margin-top: 20px">
+        <div class="justify-content-center">
+            <div class="col-md-6 offset-md-3">
+                <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
+                    <input type="hidden" th:field="*{id}" />
+                    <div class="panel-group">
+                        <div class="card mb-3">
+                            <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                                <h2 class="card-title">Edit Recipe Information</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Recipe Description:</b></label>
+                                        <input type="text" class="form-control" th:field="*{description}" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Categories:</b></label>
+                                    </div>
+                                    <div class="col-md-9 form-group">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="checkbox" value="" />
+                                                Cat 1
+                                            </label>
+                                        </div>
+                                        <div class="radio" th:remove="all">
+                                            <label>
+                                                <input type="checkbox" value="" />
+                                                Cat 2
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Prep Time:</b></label>
+                                        <input type="text" class="form-control" th:field="*{prepTime}" />
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Cooktime:</b></label>
+                                        <input type="text" class="form-control" th:field="*{cookTime}" />
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Difficulty:</b></label>
+                                        <select class="form-control">
+                                            <option>Easy</option>
+                                            <option>Medium</option>
+                                            <option>Hard</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Servings:</b></label>
+                                        <input type="text" class="form-control" th:field="*{servings}" />
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label><b>Source:</b></label>
+                                        <input type="text" class="form-control" th:field="*{source}" />
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label><b>URL:</b></label>
+                                        <input type="text" class="form-control" th:field="*{url}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                                <div class="row">
+                                    <div class="col-md-11 ">
+                                        <h2 class="card-title">Ingredients</h2>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a class="btn btn-light" href="#" role="button">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul th:if="${not #lists.isEmpty(recipe.ingredients)}">
+                                            <li th:remove="all">1 Cup of milk</li>
+                                            <li th:remove="all">1 Teaspoon of chocolate</li>
+                                            <li th:each="ingredient : ${recipe.ingredients}" th:text="${(ingredient.getAmount() +
+                                        ' ' + ingredient.unitOfMeasure.getDescription() +
+                                        ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                                <h2 class="card-title">Directions</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <textarea class="form-control" rows="3" th:field="*{directions}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                                <h2 class="card-title">Notes</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <textarea class="form-control" rows="3"
+                                            th:field="*{notes.recipeNote}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

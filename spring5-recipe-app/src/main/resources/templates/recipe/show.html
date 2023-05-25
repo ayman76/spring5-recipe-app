@@ -13,131 +13,145 @@
 
 <body>
     <div class="container-fluid" style="margin-top: 20px">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel-group">
-                    <div class="card card-primary border border-primary" style="margin: 20px 0">
-                        <div class="card-header bg-primary text-light">
-                            <h7 class="card-title" th:text="${recipe.description}">Recipe Description Here!</h7>
+        <div class="justify-content-center">
+            <div class="col-md-6 offset-md-3">
+                <div class="pannel-group">
+                    <div class="card mb-3">
+                        <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                            <h1 class="card-title" th:text="${recipe.description}">Recipe Description Here!</h1>
                         </div>
                         <div class="card-body">
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-3">
-                                    <h7>Categories:</h7>
+                                    <h5>Categories:</h5>
                                 </div>
                                 <div class="col-md-9">
                                     <ul>
-                                        <li th:each="cat: ${recipe.categories}" th:text="${cat.description}">cat one
-                                        </li>
+                                        <li th:remove="all">cat one</li>
+                                        <li th:remove="all">cat two</li>
+                                        <li th:each="category : ${recipe.categories}"
+                                            th:text="${category.getDescription()}">cat three</li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-3">
-                                    <h7>Prep Time:</h7>
+                                    <h5>Prep Time:</h5>
                                 </div>
                                 <div class="col-md-3">
-                                    <p th:text="${recipe.prepTime}">30 min</p>
+                                    <p th:text="${(recipe.prepTime) +  '  Min'}">30 min</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <h7>Difficulty:</h7>
+                                    <h5>Difficulty:</h5>
                                 </div>
                                 <div class="col-md-3">
                                     <p th:text="${recipe.difficulty}">Easy</p>
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-3">
-                                    <h7>Cooktime:</h7>
+                                    <h5>Cooktime:</h5>
                                 </div>
                                 <div class="col-md-3">
-                                    <p th:text="${recipe.cookTime}">30 min</p>
+                                    <p th:text="${(recipe.cookTime  +  '  Min')}">30 min</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <h7>Servings:</h7>
+                                    <h5>Servings:</h5>
                                 </div>
                                 <div class="col-md-3">
                                     <p th:text="${recipe.servings}">4</p>
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-3">
-                                    <h7>Source:</h7>
+                                    <h5>Source:</h5>
                                 </div>
                                 <div class="col-md-3">
                                     <p th:text="${recipe.source}">30 min</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <h7>URL:</h7>
+                                    <h5>URL:</h5>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#" th:href="@{${recipe.url}}" th:text="${recipe.url}">http://www.example.com</p>
+                                    <p><a href="#" th:href="@{recipe.url}">View Original</a></p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-primary border border-primary" style="margin: 20px 0;">
-                        <div class="card-header bg-primary text-light">
-                            <h7 class="card-title">Ingredients</h7>
+                    <div class="card mb-3">
+                        <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                            <h1 class="card-title">Ingredients</h1>
                         </div>
                         <div class="card-body">
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <ul>
-                                        <li th:each="ingredient : ${recipe.getIngredients()}"
-                                            th:text="${(ingredient.amount) + ' ' + (ingredient.uom.description) + ' - ' + (ingredient.description)}">
-                                            1 Cup of milk</li>
+                                        <li th:remove="all">1 Cup of milk</li>
+                                        <li th:remove="all">1 Teaspoon of chocolate</li>
+                                        <li th:each="ingredient : ${recipe.ingredients}" th:text="${(ingredient.getAmount() +
+                                            ' ' + ingredient.uom.getDescription() +
+                                            ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-primary border border-primary" style="margin: 20px 0;">
-                        <div class="card-header bg-primary text-light">
-                            <h7 class="card-title">Directions</h7>
+                    <div class="card mb-3">
+                        <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                            <h1 class="card-title">Directions</h1>
                         </div>
                         <div class="card-body">
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <p th:text="${recipe.directions}">Lorem ipsum dolor sit amet, consectetuer
-                                        adipiscing elit. Aenean commodo ligula
-                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-                                        fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-                                        imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-                                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-                                        enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus
-                                        viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
-                                        ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
-                                        Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper
-                                        libero, sit amet adipiscing sem neque sed ipsum.</p>
+                                        adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                                        natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                                        Donec
+                                        quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
+                                        consequat
+                                        massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
+                                        eget,
+                                        arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
+                                        dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
+                                        Vivamus
+                                        elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                                        porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
+                                        dapibus
+                                        in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius
+                                        laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
+                                        Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas
+                                        tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
+                                        adipiscing sem neque sed ipsum.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-primary border border-primary" style="margin: 20px 0;">
-                        <div class="card-header bg-primary text-light">
-                            <h7 class="card-title">Notes</h7>
+                    <div class="card mb-3">
+                        <div class="card-header text-light mb-3" style="background-color: #096DB1;">
+                            <h1 class="card-title">Notes</h1>
                         </div>
                         <div class="card-body">
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <p th:text="${recipe.notes.recipeNote}">Lorem ipsum dolor sit amet, consectetuer
-                                        adipiscing elit. Aenean commodo ligula
-                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-                                        eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
-                                        fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-                                        imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-                                        Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
-                                        eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-                                        enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus
-                                        viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
-                                        ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
-                                        Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper
-                                        libero, sit amet adipiscing sem neque sed ipsum.</p>
+                                        adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                                        natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                                        Donec
+                                        quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
+                                        consequat
+                                        massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
+                                        eget,
+                                        arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
+                                        dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
+                                        Vivamus
+                                        elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                                        porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
+                                        dapibus
+                                        in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius
+                                        laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
+                                        Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas
+                                        tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
+                                        adipiscing sem neque sed ipsum.</p>
                                 </div>
                             </div>
                         </div>
