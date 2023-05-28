@@ -2,6 +2,8 @@ package guru.springframework.spring5recipeapp.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
@@ -73,6 +75,26 @@ public class IngredientControllerTest {
     }
 
     @Test
+    void testNewIngredientForm() throws Exception {
+        // given
+        RecipeCommand command = new RecipeCommand();
+        command.setId(1L);
+
+        // when
+        when(recipeService.findCommandById(anyLong())).thenReturn(command);
+        when(unitOfMeasureService.listAllUoms()).thenReturn(new HashSet<>());
+
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/ingredient/new"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("recipe/ingredient/ingredientForm"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("ingredient"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("uomList"));
+
+        verify(recipeService, times(1)).findCommandById(anyLong());
+    }
+
+    @Test
     void testUpdateIngredientForm() throws Exception {
         // given
         IngredientCommand ingredientCommand = new IngredientCommand();
@@ -107,5 +129,12 @@ public class IngredientControllerTest {
                 .param("description", "some string"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/2/ingredient/3/show"));
+    }
+
+    @Test
+    void testDeleteIngredient() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/2/ingredient/3/delete"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/2/ingredients"));
     }
 }
