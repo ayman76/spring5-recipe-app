@@ -1,5 +1,6 @@
 package guru.springframework.spring5recipeapp.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -68,6 +70,34 @@ public class ImageControllerTest {
                 .andExpect(MockMvcResultMatchers.header().string("Location", "/recipe/1/show"));
 
         verify(imageService, times(1)).saveImageFile(anyLong(), any());
+    }
+
+    @Test
+    public void renderImageFromDB() throws Exception {
+
+        RecipeCommand command = new RecipeCommand();
+        command.setId(1L);
+
+        String s = "Spring Framework Guru";
+        Byte[] bytesBoxed = new Byte[s.getBytes().length];
+
+        int i = 0;
+
+        for (byte primByte : s.getBytes()) {
+            bytesBoxed[i++] = primByte;
+        }
+        command.setImage(bytesBoxed);
+
+        when(recipeService.findCommandById(anyLong())).thenReturn(command);
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/recipeimage"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse();
+
+        byte[] responseByte = response.getContentAsByteArray();
+
+        assertEquals(s.getBytes().length, responseByte.length);
     }
 
 }
