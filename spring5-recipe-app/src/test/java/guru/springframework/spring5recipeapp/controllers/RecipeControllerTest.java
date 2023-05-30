@@ -107,4 +107,14 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("exception"));
     }
 
+    @Test
+    public void testGetRecipeNumberFormateException() throws Exception {
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/asdf/show"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.view().name("400error"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("exception"));
+    }
+
 }
