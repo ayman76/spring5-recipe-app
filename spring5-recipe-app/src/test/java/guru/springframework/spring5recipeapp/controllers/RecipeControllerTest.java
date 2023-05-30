@@ -103,7 +103,8 @@ public class RecipeControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.view().name("404error"));
+                .andExpect(MockMvcResultMatchers.view().name("404error"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("exception"));
     }
 
 }
