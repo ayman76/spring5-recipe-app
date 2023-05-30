@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import guru.springframework.spring5recipeapp.converters.RecipeCommandToRecipe;
 import guru.springframework.spring5recipeapp.converters.RecipeToRecipeCommand;
+import guru.springframework.spring5recipeapp.exceptions.NotFoundException;
 import guru.springframework.spring5recipeapp.model.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepo;
 
@@ -73,15 +74,23 @@ public class RecipeServiceImplTest {
 
     @Test
     void testDeleteById() {
-        //given
+        // given
         Long idToDelete = 2L;
-        
-        //when
+
+        // when
         recipeService.deleteById(idToDelete);
 
-        //then
+        // then
         verify(recipeRepo, times(1)).deleteById(anyLong());
     }
 
-    
+    @Test()
+    public void testGetRecipeByIdNotFound() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepo.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
+    }
+
 }
